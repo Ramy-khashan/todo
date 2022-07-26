@@ -22,6 +22,7 @@ class UncompeletedTasksItem extends StatelessWidget {
             : todoController.todoUncompelet.isEmpty
                 ? EmptyShape(head: "No UnCompleted Tasks", size: size)
                 : ListView.builder(
+                   physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
                         color: todoController

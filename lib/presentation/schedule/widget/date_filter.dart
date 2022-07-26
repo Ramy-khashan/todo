@@ -17,19 +17,20 @@ class CurrentDayITem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        width: size.shortestSide * .17,
         height: size.longestSide * .11,
         margin: EdgeInsets.symmetric(
             horizontal: size.shortestSide * .02,
             vertical: size.longestSide * .02),
         padding: EdgeInsets.symmetric(
           vertical: size.longestSide * .015,
-          horizontal: size.shortestSide * .036,
+          horizontal: size.shortestSide * .02,
         ),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isToday ? OwnColor.mainColor : Colors.transparent),
         child: DefaultTextStyle(
-          style: TextStyle(
+          style: TextStyle( 
               color: isToday ? Colors.white : Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: size.shortestSide * .045),

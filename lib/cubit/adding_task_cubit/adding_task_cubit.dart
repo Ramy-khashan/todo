@@ -165,10 +165,14 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
     }
     emit(LanguageState());
   }
-  onChangeTextFieldLan(val){if (val.isNotEmpty) {
-                            detectLan(val, "head");
-                          } else {
-                            titleLan = "en";
-                            emit(LanguageState());
-                          }}
+
+  onChangeTextFieldLan(val) {
+    if (val.isNotEmpty) {
+      detectLan(val, "head");
+    } else {
+      titleLan = "en";
+      emit(LanguageState());
+    }
+  }
+  
 }

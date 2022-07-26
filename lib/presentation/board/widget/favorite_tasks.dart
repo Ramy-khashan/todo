@@ -22,20 +22,39 @@ class FavoriteTasksItem extends StatelessWidget {
             : todoController.todoFavorite.isEmpty
                 ? EmptyShape(head: "No Favorite Tasks", size: size)
                 : ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
-                        color: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index].bgColor,
+                        color: todoController
+                            .todoFavorite[
+                                todoController.todoFavorite.length - 1 - index]
+                            .bgColor,
                         size: size,
-                        isFavorite: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index].favorite,
+                        isFavorite: todoController
+                            .todoFavorite[
+                                todoController.todoFavorite.length - 1 - index]
+                            .favorite,
                         onClick: (val) {
-                          if (todoController.todoFavorite[todoController.todoFavorite.length - 1 - index].value == 0) {
+                          if (todoController
+                                  .todoFavorite[
+                                      todoController.todoFavorite.length -
+                                          1 -
+                                          index]
+                                  .value ==
+                              0) {
                             todoController.updateTask(
-                                task: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index],
+                                task: todoController.todoFavorite[
+                                    todoController.todoFavorite.length -
+                                        1 -
+                                        index],
                                 value: 1,
                                 isFavorite: false);
                           } else {
                             todoController.updateTask(
-                                task: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index],
+                                task: todoController.todoFavorite[
+                                    todoController.todoFavorite.length -
+                                        1 -
+                                        index],
                                 value: 0,
                                 isFavorite: false);
                           }
@@ -43,14 +62,26 @@ class FavoriteTasksItem extends StatelessWidget {
                         isNeedFavorite: false,
                         onFavorite: () {
                           todoController.updateTask(
-                              task: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index],
+                              task: todoController.todoFavorite[
+                                  todoController.todoFavorite.length -
+                                      1 -
+                                      index],
                               favorite: 0,
                               isFavorite: true);
                         },
-                        isDone: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index].value == 0
+                        isDone: todoController
+                                    .todoFavorite[
+                                        todoController.todoFavorite.length -
+                                            1 -
+                                            index]
+                                    .value ==
+                                0
                             ? false
                             : true,
-                        task: todoController.todoFavorite[todoController.todoFavorite.length - 1 - index].task,
+                        task: todoController
+                            .todoFavorite[
+                                todoController.todoFavorite.length - 1 - index]
+                            .task,
                       );
                     },
                     itemCount: todoController.todoFavorite.length,

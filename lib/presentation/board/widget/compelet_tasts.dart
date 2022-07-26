@@ -21,35 +21,55 @@ class CompeletedTasksItem extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : todoController.todoCompelet.isEmpty
-            ? EmptyShape(head: "No Compeleted Tasks", size: size)
-            : ListView.builder(
-                itemBuilder: (context, index) {
-                  return TaskShapeItem(
-                        isFavorite: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index].favorite,
-
-                    onFavorite: () {
-                      todoController.updateTask(
-                          task: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index],
-                          favorite: 1,
-                          isFavorite: true);
+                ? EmptyShape(head: "No Compeleted Tasks", size: size)
+                : ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return TaskShapeItem(
+                        isFavorite: todoController
+                            .todoCompelet[
+                                todoController.todoCompelet.length - 1 - index]
+                            .favorite,
+                        onFavorite: () {
+                          todoController.updateTask(
+                              task: todoController.todoCompelet[
+                                  todoController.todoCompelet.length -
+                                      1 -
+                                      index],
+                              favorite: 1,
+                              isFavorite: true);
+                        },
+                        size: size,
+                        color: todoController
+                            .todoCompelet[
+                                todoController.todoCompelet.length - 1 - index]
+                            .bgColor,
+                        onClick: (val) {
+                          todoController.updateTask(
+                              task: todoController.todoCompelet[
+                                  todoController.todoCompelet.length -
+                                      1 -
+                                      index],
+                              value: 0,
+                              isFavorite: false);
+                        },
+                        isDone: todoController
+                                    .todoCompelet[
+                                        todoController.todoCompelet.length -
+                                            1 -
+                                            index]
+                                    .value ==
+                                0
+                            ? false
+                            : true,
+                        task: todoController
+                            .todoCompelet[
+                                todoController.todoCompelet.length - 1 - index]
+                            .task,
+                      );
                     },
-                    size: size,color: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index].bgColor,
-                    onClick: (val) {
-                     
-                        todoController.updateTask(
-                            task: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index],
-                            value: 0,
-                            isFavorite: false);
-                      
-                    },
-                    isDone: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index].value == 0
-                        ? false
-                        : true,
-                    task: todoController.todoCompelet[todoController.todoCompelet.length - 1 - index].task,
+                    itemCount: todoController.todoCompelet.length,
                   );
-                },
-                itemCount: todoController.todoCompelet.length,
-              );
       },
     );
   }

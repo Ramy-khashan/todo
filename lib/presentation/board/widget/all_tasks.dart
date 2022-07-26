@@ -18,6 +18,7 @@ class AllTasksItem extends StatelessWidget {
         return todoController.todos.isEmpty
             ? EmptyShape(head: "No Tasks", size: size)
             : ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return TaskShapeItem(
                     isFavorite: todoController

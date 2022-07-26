@@ -1,11 +1,10 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo/models/db_model.dart';
-
+import 'package:todo/services/notification_service.dart';
+import '../../data/addtask_data.dart';
 import 'todo_cubit_state.dart';
 
 class TodoCubitCubit extends Cubit<TodoCubitState> {
@@ -14,7 +13,6 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
   late Database database;
   bool isLoading = false;
   List<TaskModel> todos = [];
-  List<TaskModel> todoToday = [];
   List<TaskModel> todoCompelet = [];
   List<TaskModel> todoUncompelet = [];
   List<TaskModel> todoFavorite = [];
@@ -31,7 +29,6 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
       await db.execute(
           'CREATE TABLE todo (id INTEGER PRIMARY KEY, task TEXT, value INTEGER,reminder TEXT,repeat TEXT,deadLine TEXT,startTime TEXT,endTime TEXT,bgColor TEXT,textColor TEXT, favorite INTEGER,addedAt TEXT)');
       emit(CreateDatabaseState());
-      //add favorite
     }, onOpen: (Database db) {
       database = db;
       getTodosList();
@@ -66,11 +63,29 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
             textColor,
             favorite,
             addedAt
-          ]);
-    }).then((value) {
-      Fluttertoast.showToast(msg: "Task Added");
-      getTodosList();
-      emit(InsertTaskToDatabaseState());
+          ]).then((value) {
+        NotificationService().showNotification(
+            id: value,
+            title: "Remeber Your Task",
+            body: task,
+            minute: reminder == AddTaskData.reminder[0]
+                // AddTaskData.reminder[0] == after one day
+                ?( 24 * 60)
+                : reminder == AddTaskData.reminder[1]
+                    // AddTaskData.reminder[1] == after one hour
+                    ? 60
+                    : reminder == AddTaskData.reminder[2]
+                        // AddTaskData.reminder[2] == after 30 minutes
+                        ? 30
+                        // AddTaskData.reminder[3] == after 10 minutes
+                        : 10);
+
+        Fluttertoast.showToast(msg: "Task Added");
+        getTodosList();
+        emit(InsertTaskToDatabaseState());
+      }).onError((error, stackTrace) {
+        Fluttertoast.showToast(msg: "Somethig went wrong try again!");
+      });
     });
   }
 
@@ -111,13 +126,9 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
     todoCompelet = [];
     todoUncompelet = [];
     todoFavorite = [];
-    todoToday = [];
     await database.rawQuery('SELECT * FROM todo').then((value) {
       todos = value.map((e) => TaskModel.fromJson(e)).toList();
       for (var element in value) {
-        if (element['addedAt'] == DateFormat.yMd().format(DateTime.now())) {
-          todoToday.add(TaskModel.fromJson(element));
-        }
         if (element['favorite'] == 1) {
           todoFavorite.add(TaskModel.fromJson(element));
         }
@@ -126,7 +137,6 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
         } else if (element["value"] == 1) {
           todoCompelet.add(TaskModel.fromJson(element));
         }
-       
       }
       isLoading = false;
       emit(SuccesGetTodoListState());

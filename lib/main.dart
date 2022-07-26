@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/presentation/board/board_page.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 import 'cubit/adding_task_cubit/adding_task_cubit.dart';
 import 'cubit/board_page_cubit/board_page_cubit.dart';
 import 'cubit/todo_app_cubit/todo_cubit_cubit.dart';
 
 void main() {
+  tz.initializeTimeZones();
   runApp(const MyApp());
 }
 
