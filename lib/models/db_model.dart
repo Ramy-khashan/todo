@@ -11,6 +11,7 @@ class TaskModel {
   late String bgColor;
   late String addedAt;
   late int favorite;
+  late String lanType;
 
   TaskModel.fromJson(Map<String, dynamic> json) {
     taskId = json["id"];
@@ -25,5 +26,6 @@ class TaskModel {
     bgColor = json["bgColor"];
     favorite = json["favorite"];
     addedAt = json["addedAt"];
+    lanType = json["lanType"];
   }
 }

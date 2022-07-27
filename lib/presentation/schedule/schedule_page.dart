@@ -6,8 +6,8 @@ import 'package:todo/presentation/adding_task/widget/head.dart';
 import 'package:todo/presentation/schedule/widget/date_filter.dart';
 import 'package:todo/presentation/schedule/widget/task_shape.dart';
 import '../../cubit/schedual/schedual_state.dart';
-import '../../cubit/todo_app_cubit/todo_cubit_cubit.dart';
-import '../../cubit/todo_app_cubit/todo_cubit_state.dart';
+import '../../cubit/todo_app_cubit/todo_cubit.dart';
+import '../../cubit/todo_app_cubit/todo_state.dart';
 import '../share_widget/empty_shape.dart';
 
 class ScheduleScreen extends StatelessWidget {

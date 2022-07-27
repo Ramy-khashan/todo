@@ -10,9 +10,12 @@ class TaskShapeItem extends StatelessWidget {
   final bool isNeedFavorite;
   final int isFavorite;
   final String color;
+  final String lan;
 
   const TaskShapeItem(
       {Key? key,
+
+      required this.lan,
       required this.color,
       required this.task,
       required this.onClick,
@@ -35,6 +38,7 @@ class TaskShapeItem extends StatelessWidget {
       title: Text(
         task,
         overflow: TextOverflow.ellipsis,
+        textAlign: lan=="ar"?TextAlign.right:TextAlign.right,
         style: TextStyle(fontSize: size.shortestSide * .045),
       ),
       trailing: IconButton(

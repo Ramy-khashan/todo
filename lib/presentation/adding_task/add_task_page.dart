@@ -10,8 +10,8 @@ import 'package:todo/services/get_duration_minutes.dart';
 
 import '../../cubit/adding_task_cubit/adding_task_cubit.dart';
 import '../../cubit/adding_task_cubit/adding_task_state.dart';
-import '../../cubit/todo_app_cubit/todo_cubit_cubit.dart';
-import '../../cubit/todo_app_cubit/todo_cubit_state.dart';
+import '../../cubit/todo_app_cubit/todo_cubit.dart';
+import '../../cubit/todo_app_cubit/todo_state.dart';
 import '../share_widget/button.dart';
 import 'widget/dropdown_list.dart';
 
@@ -150,8 +150,10 @@ class AddTaskScreen extends StatelessWidget {
                                 favorite: 0,
                                 addedAt:
                                     DateFormat.yMd().format(DateTime.now()),
-                                durationTime: minutes);
+                                lanType: controller.titleLan,
+                                durationTimeForNotification: minutes);
                             controller.taskController.clear();
+                            controller.titleLan = "en";
                             Navigator.pop(context);
                           }
                         },

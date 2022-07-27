@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todo/models/db_model.dart';
 import 'package:todo/services/notification_service.dart';
 import '../../data/addtask_data.dart';
-import 'todo_cubit_state.dart';
+import 'todo_state.dart';
 
 class TodoCubitCubit extends Cubit<TodoCubitState> {
   TodoCubitCubit() : super(TodoCubitInitial());
@@ -29,7 +29,7 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
     await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE todo (id INTEGER PRIMARY KEY, task TEXT, value INTEGER,reminder TEXT,repeat TEXT,deadLine TEXT,startTime TEXT,endTime TEXT,bgColor TEXT,textColor TEXT, favorite INTEGER,addedAt TEXT)');
+          'CREATE TABLE todo (id INTEGER PRIMARY KEY, task TEXT, value INTEGER,reminder TEXT,repeat TEXT,deadLine TEXT,startTime TEXT,endTime TEXT,bgColor TEXT,textColor TEXT, favorite INTEGER,addedAt TEXT,lanType TEXT)');
       emit(CreateDatabaseState());
     }, onOpen: (Database db) {
       database = db;
@@ -50,10 +50,11 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
       textColor,
       favorite,
       addedAt,
-      durationTime}) async {
+      lanType,
+      durationTimeForNotification}) async {
     await database.transaction((txn) async {
       txn.rawInsert(
-          'INSERT INTO todo (task, value, reminder, repeat,deadLine,startTime,endTime,bgColor,textColor,favorite,addedAt) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT INTO todo (task, value, reminder, repeat,deadLine,startTime,endTime,bgColor,textColor,favorite,addedAt,lanType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             task,
             value,
@@ -65,24 +66,25 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
             bgColor,
             textColor,
             favorite,
-            addedAt
+            addedAt,
+            lanType
           ]).then((value) {
-        log(durationTime.toString());
+        log(durationTimeForNotification.toString());
         NotificationService().showNotification(
             id: value,
             title: "Remeber Your Task",
             body: task,
             minute: reminder == AddTaskData.reminder[0]
                 // AddTaskData.reminder[0] == after one day
-                ? (durationTime - (24 * 60))
+                ? (durationTimeForNotification - (24 * 60))
                 : reminder == AddTaskData.reminder[1]
                     // AddTaskData.reminder[1] == after one hour
-                    ? durationTime - 60
+                    ? durationTimeForNotification - 60
                     : reminder == AddTaskData.reminder[2]
                         // AddTaskData.reminder[2] == after 30 minutes
-                        ? durationTime - 30
+                        ? durationTimeForNotification - 30
                         // AddTaskData.reminder[3] == after 10 minutes
-                        : durationTime - 10);
+                        : durationTimeForNotification - 10);
 
         Fluttertoast.showToast(msg: "Task Added");
         getTodosList();
@@ -95,7 +97,7 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
 
   updateTask({required TaskModel task, value, favorite, isFavorite}) async {
     await database.rawUpdate(
-        'UPDATE todo SET task = ?, value = ?, reminder= ?, repeat= ?, deadLine=? , startTime=?, endTime=?, bgColor=?, textColor=?,favorite=?,addedAt=? WHERE id = ${task.taskId}',
+        'UPDATE todo SET task = ?, value = ?, reminder= ?, repeat= ?, deadLine=? , startTime=?, endTime=?, bgColor=?, textColor=?,favorite=?,addedAt=?,lanType = ? WHERE id = ${task.taskId}',
         [
           task.task,
           isFavorite ? task.value : value,
@@ -107,7 +109,8 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
           task.bgColor,
           task.textColor,
           isFavorite ? favorite : task.favorite,
-          task.addedAt
+          task.addedAt,
+          task.lanType
         ]).then((_) {
       if (!isFavorite) {
         Fluttertoast.showToast(msg: value == 1 ? "Completed" : "Uncompleted");

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubit/todo_app_cubit/todo_cubit_cubit.dart';
-import '../../../cubit/todo_app_cubit/todo_cubit_state.dart';
+import '../../../cubit/todo_app_cubit/todo_cubit.dart';
+import '../../../cubit/todo_app_cubit/todo_state.dart';
 
 import '../../share_widget/empty_shape.dart';
 import 'taskshape.dart';
@@ -26,6 +26,7 @@ class CompeletedTasksItem extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
+                        lan: todoController.todoCompelet[index].lanType,
                         isFavorite: todoController
                             .todoCompelet[
                                 todoController.todoCompelet.length - 1 - index]

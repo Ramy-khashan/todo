@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../share_widget/empty_shape.dart';
 import 'taskshape.dart';
 
-import '../../../cubit/todo_app_cubit/todo_cubit_cubit.dart';
-import '../../../cubit/todo_app_cubit/todo_cubit_state.dart';
+import '../../../cubit/todo_app_cubit/todo_cubit.dart';
+import '../../../cubit/todo_app_cubit/todo_state.dart';
 
 class AllTasksItem extends StatelessWidget {
   final Size size;
@@ -21,6 +21,7 @@ class AllTasksItem extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return TaskShapeItem(
+                    lan: todoController.todos[index].lanType,
                     isFavorite: todoController
                         .todos[todoController.todos.length - 1 - index]
                         .favorite,

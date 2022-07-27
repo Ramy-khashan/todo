@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubit/todo_app_cubit/todo_cubit_cubit.dart';
-import '../../../cubit/todo_app_cubit/todo_cubit_state.dart';
+import '../../../cubit/todo_app_cubit/todo_cubit.dart';
+import '../../../cubit/todo_app_cubit/todo_state.dart';
 import '../../share_widget/empty_shape.dart';
 import 'taskshape.dart';
 
@@ -22,9 +22,10 @@ class UncompeletedTasksItem extends StatelessWidget {
             : todoController.todoUncompelet.isEmpty
                 ? EmptyShape(head: "No UnCompleted Tasks", size: size)
                 : ListView.builder(
-                   physics: const BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
+                        lan: todoController.todoUncompelet[index].lanType,
                         color: todoController
                             .todoUncompelet[
                                 todoController.todoUncompelet.length -
