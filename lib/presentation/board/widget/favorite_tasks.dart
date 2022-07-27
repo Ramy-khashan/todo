@@ -25,7 +25,7 @@ class FavoriteTasksItem extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
-                        lan: todoController.todoFavorite[index].lanType,
+                        lan: todoController.todoFavorite[ todoController.todoFavorite.length - 1 - index].lanType,
                         color: todoController
                             .todoFavorite[
                                 todoController.todoFavorite.length - 1 - index]

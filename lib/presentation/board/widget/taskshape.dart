@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:todo/constant/colors.dart';
 
@@ -14,7 +16,6 @@ class TaskShapeItem extends StatelessWidget {
 
   const TaskShapeItem(
       {Key? key,
-
       required this.lan,
       required this.color,
       required this.task,
@@ -38,7 +39,7 @@ class TaskShapeItem extends StatelessWidget {
       title: Text(
         task,
         overflow: TextOverflow.ellipsis,
-        textAlign: lan=="ar"?TextAlign.right:TextAlign.right,
+        textAlign: lan == "en" ? TextAlign.left : TextAlign.right,
         style: TextStyle(fontSize: size.shortestSide * .045),
       ),
       trailing: IconButton(

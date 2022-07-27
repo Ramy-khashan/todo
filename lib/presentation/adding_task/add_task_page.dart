@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -40,8 +42,10 @@ class AddTaskScreen extends StatelessWidget {
               child: Column(
                 children: [
                   GetTitleItem(
-                      onChange: (val) {
-                        controller.onChangeTextFieldLan(val);
+                      onChange: (String? val) {
+                        if (val!.isNotEmpty) {
+                          controller.onChangeTextFieldLan(val);
+                        }
                       },
                       align: controller.titleLan,
                       controller: controller.taskController,
@@ -130,7 +134,7 @@ class AddTaskScreen extends StatelessWidget {
                                     startTime: controller.startTime,
                                     endTime: controller.endTime)
                                 .calTime();
-                            todoController.insertNote(
+                            todoController.insertTask(
                                 task: controller.taskController.text,
                                 endTime: controller.endTime.format(context),
                                 startTime: controller.startTime.format(context),
@@ -152,8 +156,8 @@ class AddTaskScreen extends StatelessWidget {
                                     DateFormat.yMd().format(DateTime.now()),
                                 lanType: controller.titleLan,
                                 durationTimeForNotification: minutes);
-                            controller.taskController.clear();
                             controller.titleLan = "en";
+                            controller.taskController.clear();
                             Navigator.pop(context);
                           }
                         },

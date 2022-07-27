@@ -26,7 +26,7 @@ class CompeletedTasksItem extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
-                        lan: todoController.todoCompelet[index].lanType,
+                        lan: todoController.todoCompelet[  todoController.todoCompelet.length - 1 - index].lanType,
                         isFavorite: todoController
                             .todoCompelet[
                                 todoController.todoCompelet.length - 1 - index]

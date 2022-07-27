@@ -8,7 +8,7 @@ class GetTitleItem extends StatelessWidget {
   final String align;
   final Function(String val) onValid;
   final TextEditingController controller;
-  final Function(dynamic val) onChange;
+  final Function(String? val) onChange;
   final Size size;
 
   const GetTitleItem(

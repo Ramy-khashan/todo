@@ -38,7 +38,7 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
     });
   }
 
-  void insertNote(
+  void insertTask(
       {task,
       value,
       reminder,

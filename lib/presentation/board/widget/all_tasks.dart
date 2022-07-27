@@ -21,7 +21,8 @@ class AllTasksItem extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return TaskShapeItem(
-                    lan: todoController.todos[index].lanType,
+                    lan: todoController
+                        .todos[todoController.todos.length - 1 - index].lanType,
                     isFavorite: todoController
                         .todos[todoController.todos.length - 1 - index]
                         .favorite,

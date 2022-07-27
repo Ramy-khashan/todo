@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => TodoCubitCubit()..initialDatabase()),
         BlocProvider(create: (context) => BoardPageCubit()),
-        BlocProvider(create: (context) => AddingTaskCubit()..initialColor()),
+        BlocProvider(create: (context) => AddingTaskCubit()..initialValues()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

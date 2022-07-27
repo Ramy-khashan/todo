@@ -25,7 +25,9 @@ class UncompeletedTasksItem extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return TaskShapeItem(
-                        lan: todoController.todoUncompelet[index].lanType,
+                        lan: todoController.todoUncompelet[todoController.todoUncompelet.length -
+                                      1 -
+                                      index].lanType,
                         color: todoController
                             .todoUncompelet[
                                 todoController.todoUncompelet.length -

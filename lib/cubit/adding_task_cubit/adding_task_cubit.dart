@@ -21,7 +21,7 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
       DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
   late Color pickerBGColor;
   late Color pickerTextColor;
-  String titleLan = "en";
+  late String titleLan ;
   List letter = [
     "ئ",
     "ء",
@@ -72,7 +72,8 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
     "ّ"
   ];
 
-  initialColor() {
+  initialValues() {
+    titleLan = "en";
     pickerBGColor = const Color.fromARGB(250, 0, 0, 0);
     pickerTextColor = const Color.fromARGB(200, 255, 255, 255);
     taskController.clear();
@@ -161,7 +162,6 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
     for (int i = 0; i < letter.length; i++) {
       if (val.trim()[0].toString() == letter[i]) {
         titleLan = "ar";
-
         break;
       } else {
         titleLan = "en";

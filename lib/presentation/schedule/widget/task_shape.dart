@@ -20,19 +20,21 @@ class TaskShapeScheduleItem extends StatelessWidget {
         color: Color(int.parse(task.bgColor)),
       ),
       child: ListTile(
-        title: Text.rich(TextSpan(
-          children: [
-            
-            TextSpan(text: "${task.endTime}\n"),
-            TextSpan(
-              text: task.task,
-            )
-          ],
-          style: TextStyle(
-              color: Color(int.parse(task.textColor)),
-              fontSize: size.shortestSide * .045,
-              fontWeight: FontWeight.w700),
-        )),
+        title: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: "${task.endTime}\n"),
+              TextSpan(
+                text: task.task,
+              )
+            ],
+            style: TextStyle(
+                color: Color(int.parse(task.textColor)),
+                fontSize: size.shortestSide * .045,
+                fontWeight: FontWeight.w700),
+          ),
+          textAlign: task.lanType == "ar" ? TextAlign.right : TextAlign.left,
+        ),
         trailing: Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
