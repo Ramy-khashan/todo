@@ -39,14 +39,15 @@ class ScheduleScreen extends StatelessWidget {
                 final controller = SchedualCubit.get(context);
                 return Column(
                   children: [
-                    Expanded(
+                    SizedBox(
+                      height: size.longestSide * .15,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         itemCount: DateTime(DateTime.now().year,
                                 DateTime.now().month + 1, 0)
                             .day,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => InkWell(
+                        itemBuilder: (context, index) => GestureDetector(
                           onTap: () {
                             controller.onGetDay(index + 1);
                             controller.todoTasks = [];
@@ -87,7 +88,6 @@ class ScheduleScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 4,
                       child: controller.todoTasks.isEmpty
                           ? EmptyShape(
                               head: DateTime(

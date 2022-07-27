@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
@@ -47,7 +49,8 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
       bgColor,
       textColor,
       favorite,
-      addedAt}) async {
+      addedAt,
+      durationTime}) async {
     await database.transaction((txn) async {
       txn.rawInsert(
           'INSERT INTO todo (task, value, reminder, repeat,deadLine,startTime,endTime,bgColor,textColor,favorite,addedAt) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
@@ -64,21 +67,22 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
             favorite,
             addedAt
           ]).then((value) {
+        log(durationTime.toString());
         NotificationService().showNotification(
             id: value,
             title: "Remeber Your Task",
             body: task,
             minute: reminder == AddTaskData.reminder[0]
                 // AddTaskData.reminder[0] == after one day
-                ?( 24 * 60)
+                ? (durationTime - (24 * 60))
                 : reminder == AddTaskData.reminder[1]
                     // AddTaskData.reminder[1] == after one hour
-                    ? 60
+                    ? durationTime - 60
                     : reminder == AddTaskData.reminder[2]
                         // AddTaskData.reminder[2] == after 30 minutes
-                        ? 30
+                        ? durationTime - 30
                         // AddTaskData.reminder[3] == after 10 minutes
-                        : 10);
+                        : durationTime - 10);
 
         Fluttertoast.showToast(msg: "Task Added");
         getTodosList();

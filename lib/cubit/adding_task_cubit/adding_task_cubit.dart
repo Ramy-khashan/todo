@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:todo/presentation/share_widget/button.dart';
 
 import '../../data/addtask_data.dart';
 import 'adding_task_state.dart';
@@ -13,9 +14,11 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
   String repeatValue = AddTaskData.repeat[0];
   final taskController = TextEditingController();
   static AddingTaskCubit get(ctx) => BlocProvider.of(ctx);
+  TimeOfDay endTime =
+      TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
   TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime = TimeOfDay.now();
-  DateTime deadLine = DateTime.now();
+  DateTime deadLine = DateTime(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
   late Color pickerBGColor;
   late Color pickerTextColor;
   String titleLan = "en";
@@ -109,7 +112,7 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
   getDate(context) {
     showDatePicker(
             context: context,
-            initialDate: DateTime.now(),
+            initialDate: deadLine,
             firstDate: DateTime.now(),
             lastDate: DateTime(2023))
         .then((value) {
@@ -128,7 +131,7 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
     emit(PutColorState());
   }
 
-  showColorPicker(context, {required bool isText}) {
+  showColorPicker(context, {required bool isText, required Size size}) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -142,13 +145,14 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
                       changeBGColor(color, isText);
                     }),
               ),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text('Got it'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+              actions: [
+                ButtonItem(
+                    head: "Got it",
+                    paddingSize: .016,
+                    onPress: () {
+                      Navigator.of(context).pop();
+                    },
+                    size: size)
               ],
             ));
   }
@@ -174,5 +178,4 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
       emit(LanguageState());
     }
   }
-  
 }

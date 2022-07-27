@@ -5,9 +5,11 @@ class ButtonItem extends StatelessWidget {
   final VoidCallback onPress;
   final Size size;
   final Color color;
+  final double paddingSize;
   const ButtonItem(
       {Key? key,
       required this.head,
+      this.paddingSize=.02,
       required this.onPress,
       required this.size,
       this.color = Colors.green})
@@ -18,11 +20,12 @@ class ButtonItem extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: size.longestSide * .02),
+        padding: EdgeInsets.symmetric(vertical: size.longestSide * paddingSize),
         width: double.infinity,
-        margin: 
-            EdgeInsets.symmetric(horizontal: size.shortestSide * .05,vertical:  size.longestSide * .02)
-      ,  decoration: BoxDecoration(
+        margin: EdgeInsets.symmetric(
+            horizontal: size.shortestSide * .05,
+            vertical: size.longestSide * .02),
+        decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13),
             color: color.withOpacity(.9)),
         child: Text(

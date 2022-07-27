@@ -28,13 +28,14 @@ class DropDownListItem extends StatelessWidget {
           size: size,
         ),
         Container(
-          height: size.longestSide * .09,
+          height: size.longestSide * .075,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
               color: OwnColor.addTaskFieldsColor,
               borderRadius: BorderRadius.circular(12)),
           child: Center(
             child: DropdownButton<String>(
+              borderRadius: BorderRadius.circular(12),
               isExpanded: true,
               underline: Container(color: Colors.transparent),
               value: reminderValue,

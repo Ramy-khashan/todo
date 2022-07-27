@@ -27,7 +27,7 @@ class GetDateItem extends StatelessWidget {
           size: size,
         ),
         Container(
-          height: size.longestSide * .09,
+          height: size.longestSide * .075,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
               color: OwnColor.addTaskFieldsColor,

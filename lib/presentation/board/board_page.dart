@@ -46,7 +46,7 @@ class BoardPageScreenState extends State<BoardPageScreen>
                   icon: Icons.search_outlined, onPress: () {}, size: size),
               IconButtonItem(
                   icon: Icons.notifications_active_outlined,
-                  onPress: () {},
+                  onPress: () async {},
                   size: size),
               IconButtonItem(
                   icon: Icons.schedule,

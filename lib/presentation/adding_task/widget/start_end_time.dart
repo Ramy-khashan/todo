@@ -8,8 +8,14 @@ class StartEndTimeItem extends StatelessWidget {
   final String time;
   final Size size;
   final VoidCallback onTap;
-  
-  const StartEndTimeItem({Key? key,required this.head,required this.time,required this.onTap,required this.size}) : super(key: key);
+
+  const StartEndTimeItem(
+      {Key? key,
+      required this.head,
+      required this.time,
+      required this.onTap,
+      required this.size})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class StartEndTimeItem extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: size.longestSide * .09,
+            height: size.longestSide * .075,
             decoration: BoxDecoration(
                 color: OwnColor.addTaskFieldsColor,
                 borderRadius: BorderRadius.circular(12)),
@@ -35,8 +41,7 @@ class StartEndTimeItem extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                    onPressed: onTap,
-                    icon: const Icon(Icons.access_time))
+                    onPressed: onTap, icon: const Icon(Icons.access_time))
               ],
             ),
           ),
