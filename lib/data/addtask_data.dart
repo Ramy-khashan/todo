@@ -7,8 +7,6 @@ class AddTaskData {
   ];
   static List<String> repeat = [
     "Daily",
-    "Weekly",
-    "Monthly",
-    "Yearly",
+    "No Repeat",
   ];
 }

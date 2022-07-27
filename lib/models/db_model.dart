@@ -11,6 +11,7 @@ class TaskModel {
   late String bgColor;
   late String addedAt;
   late int favorite;
+  late int isRepeat;
   late String lanType;
 
   TaskModel.fromJson(Map<String, dynamic> json) {
@@ -27,5 +28,6 @@ class TaskModel {
     favorite = json["favorite"];
     addedAt = json["addedAt"];
     lanType = json["lanType"];
+    isRepeat = json["isRepeat"];
   }
 }

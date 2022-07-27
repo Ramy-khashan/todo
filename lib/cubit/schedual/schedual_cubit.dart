@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/models/db_model.dart';
@@ -19,8 +21,11 @@ class SchedualCubit extends Cubit<SchedualState> {
   getTasksInchoosenDay({index, todos}) {
     for (var element in todos) {
       if (element.addedAt ==
-          DateFormat.yMd().format(DateTime(
-              DateTime.now().year, DateTime.now().month, choosenDay))) {
+              DateFormat.yMd().format(
+                  DateTime(DateTime.now().year, DateTime.now().month, index)) ||
+          (element.isRepeat == 1 &&
+              int.parse(element.addedAt.toString().split('/')[1]) <= index)) {
+        log(element.addedAt.toString().split('/')[1]);
         todoTasks.add(element);
       }
     }

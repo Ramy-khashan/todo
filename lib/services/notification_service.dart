@@ -39,6 +39,7 @@ class NotificationService {
         android: AndroidNotificationDetails('main_channel', 'Main Channel',
             channelDescription: 'Main channel notifications',
             playSound: true,
+
             importance: Importance.max,
             priority: Priority.max,
             icon: '@drawable/notificatin_icon'),
@@ -49,7 +50,8 @@ class NotificationService {
     );
   }
 
-  Future<void> cancelAllNotifications() async {
+  Future<void> cancelAllNotifications(id) async {
+//    await flutterLocalNotificationsPlugin.cancel(id);
     await flutterLocalNotificationsPlugin.cancelAll();
   }
   // NotificationAppLaunchDetails? notificationDetails;

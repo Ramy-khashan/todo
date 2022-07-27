@@ -11,17 +11,18 @@ import 'adding_task_state.dart';
 class AddingTaskCubit extends Cubit<AddingTaskState> {
   AddingTaskCubit() : super(AddingTaskInitial());
   String reminderValue = AddTaskData.reminder[0];
-  String repeatValue = AddTaskData.repeat[0];
+  String repeatValue = AddTaskData.repeat[1];
   final taskController = TextEditingController();
   static AddingTaskCubit get(ctx) => BlocProvider.of(ctx);
   TimeOfDay endTime =
       TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
   TimeOfDay startTime = TimeOfDay.now();
+
   DateTime deadLine = DateTime(
       DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
   late Color pickerBGColor;
   late Color pickerTextColor;
-  late String titleLan ;
+  late String titleLan;
   List letter = [
     "ئ",
     "ء",
@@ -73,10 +74,15 @@ class AddingTaskCubit extends Cubit<AddingTaskState> {
   ];
 
   initialValues() {
+    endTime = TimeOfDay(
+        hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
+    startTime = TimeOfDay.now();
+    deadLine = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
     titleLan = "en";
-    pickerBGColor = const Color.fromARGB(250, 0, 0, 0);
-    pickerTextColor = const Color.fromARGB(200, 255, 255, 255);
     taskController.clear();
+    pickerBGColor = const Color.fromARGB(200, 0, 0, 0);
+    pickerTextColor = const Color.fromARGB(150, 240, 220, 200);
     emit(InitialColorState());
   }
 

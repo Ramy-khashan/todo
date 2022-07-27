@@ -52,7 +52,7 @@ class ScheduleScreen extends StatelessWidget {
                             controller.onGetDay(index + 1);
                             controller.todoTasks = [];
                             controller.getTasksInchoosenDay(
-                                index: index, todos: todoController.todos);
+                                index: index + 1, todos: todoController.todos);
                           },
                           child: CurrentDayITem(
                             dayName: DateFormat.E()
@@ -103,6 +103,11 @@ class ScheduleScreen extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return TaskShapeScheduleItem(
+                                  currentDay: int.parse(controller
+                                      .todoTasks[index].addedAt
+                                      .toString()
+                                      .split('/')[1]),
+                                  choosenDay:controller.choosenDay,
                                   task: controller.todoTasks[index],
                                   size: size,
                                 );

@@ -23,153 +23,159 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Add Task",
-          style: Theme.of(context).textTheme.bodyText1,
+
+    return BlocProvider(
+      create: (context) => AddingTaskCubit()..initialValues(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Add Task",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
         ),
-      ),
-      body: BlocBuilder<AddingTaskCubit, AddingTaskState>(
-        builder: (context, state) {
-          final controller = AddingTaskCubit.get(context);
-          return Form(
-            key: controller.formKey,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding:
-                  EdgeInsets.symmetric(horizontal: size.shortestSide * .05),
-              child: Column(
-                children: [
-                  GetTitleItem(
-                      onChange: (String? val) {
-                        if (val!.isNotEmpty) {
-                          controller.onChangeTextFieldLan(val);
-                        }
-                      },
-                      align: controller.titleLan,
-                      controller: controller.taskController,
-                      head: "Title",
-                      onValid: (String valid) {
-                        if (valid.isEmpty) {
-                          return "Must enter task title";
-                        }
-                        return null;
-                      },
-                      size: size),
-                  GetDateItem(
-                      date: controller.deadLine
-                          .toLocal()
-                          .toString()
-                          .substring(0, 10),
-                      head: "Deadline",
-                      ontap: () {
-                        controller.getDate(context);
-                      },
-                      size: size),
-                  Row(
-                    children: [
-                      StartEndTimeItem(
-                          head: "Start time",
-                          time: controller.startTime.format(context),
-                          onTap: () {
-                            controller.getTime(context, "start");
-                          },
-                          size: size),
-                      SizedBox(width: size.shortestSide * .03),
-                      StartEndTimeItem(
-                          head: "End time",
-                          time: controller.endTime.format(context),
-                          onTap: () {
-                            controller.getTime(context, "end");
-                          },
-                          size: size),
-                    ],
-                  ),
-                  DropDownListItem(
-                    onChange: (val) {
-                      controller.getRemiderRepeatValue(val, "reminder");
-                    },
-                    listType: AddTaskData.reminder,
-                    head: "Reminder",
-                    reminderValue: controller.reminderValue,
-                    size: size,
-                  ),
-                  DropDownListItem(
-                    head: "Repeat",
-                    onChange: (val) {
-                      controller.getRemiderRepeatValue(val, "repeat");
-                    },
-                    listType: AddTaskData.repeat,
-                    reminderValue: controller.repeatValue,
-                    size: size,
-                  ),
-                  PickColorItem(
-                    onChangeBG: () {
-                      controller.showColorPicker(context,
-                          isText: false, size: size);
-                    },
-                    onChangeText: () {
-                      controller.showColorPicker(context,
-                          isText: true, size: size);
-                    },
-                    size: size,
-                    colorBg: controller.pickerBGColor,
-                    colorText: controller.pickerTextColor,
-                  ),
-                  BlocBuilder<TodoCubitCubit, TodoCubitState>(
-                    builder: (context, state) {
-                      final todoController = TodoCubitCubit.get(context);
-                      return ButtonItem(
-                        head: "Create a task",
-                        onPress: () {
-                          if (controller.formKey.currentState!.validate()) {
-                            int minutes = ControlTime(
-                                    startDay: DateTime(
-                                            DateTime.now().year,
-                                            DateTime.now().month,
-                                            DateTime.now().day)
-                                        .day,
-                                    deadLineDay: controller.deadLine.day,
-                                    startTime: controller.startTime,
-                                    endTime: controller.endTime)
-                                .calTime();
-                            todoController.insertTask(
-                                task: controller.taskController.text,
-                                endTime: controller.endTime.format(context),
-                                startTime: controller.startTime.format(context),
-                                deadLine: controller.deadLine
-                                    .toLocal()
-                                    .toString()
-                                    .substring(0, 10),
-                                repeat: controller.repeatValue,
-                                reminder: controller.reminderValue,
-                                value: 0,
-                                bgColor: controller.pickerBGColor
-                                    .toString()
-                                    .substring(6, 16),
-                                textColor: controller.pickerTextColor
-                                    .toString()
-                                    .substring(6, 16),
-                                favorite: 0,
-                                addedAt:
-                                    DateFormat.yMd().format(DateTime.now()),
-                                lanType: controller.titleLan,
-                                durationTimeForNotification: minutes);
-                            controller.titleLan = "en";
-                            controller.taskController.clear();
-                            Navigator.pop(context);
+        body: BlocBuilder<AddingTaskCubit, AddingTaskState>(
+          builder: (context, state) {
+            final controller = AddingTaskCubit.get(context);
+            return Form(
+              key: controller.formKey,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding:
+                    EdgeInsets.symmetric(horizontal: size.shortestSide * .05),
+                child: Column(
+                  children: [
+                    GetTitleItem(
+                        onChange: (String? val) {
+                          if (val!.isNotEmpty) {
+                            controller.onChangeTextFieldLan(val);
                           }
                         },
-                        size: size,
-                      );
-                    },
-                  ),
-                ],
+                        align: controller.titleLan,
+                        controller: controller.taskController,
+                        head: "Title",
+                        onValid: (String valid) {
+                          if (valid.isEmpty) {
+                            return "Must enter task title";
+                          }
+                          return null;
+                        },
+                        size: size),
+                    GetDateItem(
+                        date: controller.deadLine
+                            .toLocal()
+                            .toString()
+                            .substring(0, 10),
+                        head: "Deadline",
+                        ontap: () {
+                          controller.getDate(context);
+                        },
+                        size: size),
+                    Row(
+                      children: [
+                        StartEndTimeItem(
+                            head: "Start time",
+                            time: controller.startTime.format(context),
+                            onTap: () {
+                              controller.getTime(context, "start");
+                            },
+                            size: size),
+                        SizedBox(width: size.shortestSide * .03),
+                        StartEndTimeItem(
+                            head: "End time",
+                            time: controller.endTime.format(context),
+                            onTap: () {
+                              controller.getTime(context, "end");
+                            },
+                            size: size),
+                      ],
+                    ),
+                    DropDownListItem(
+                      onChange: (val) {
+                        controller.getRemiderRepeatValue(val, "reminder");
+                      },
+                      listType: AddTaskData.reminder,
+                      head: "Reminder",
+                      reminderValue: controller.reminderValue,
+                      size: size,
+                    ),
+                    DropDownListItem(
+                      head: "Repeat",
+                      onChange: (val) {
+                        controller.getRemiderRepeatValue(val, "repeat");
+                      },
+                      listType: AddTaskData.repeat,
+                      reminderValue: controller.repeatValue,
+                      size: size,
+                    ),
+                    PickColorItem(
+                      onChangeBG: () {
+                        controller.showColorPicker(context,
+                            isText: false, size: size);
+                      },
+                      onChangeText: () {
+                        controller.showColorPicker(context,
+                            isText: true, size: size);
+                      },
+                      size: size,
+                      colorBg: controller.pickerBGColor,
+                      colorText: controller.pickerTextColor,
+                    ),
+                    BlocBuilder<TodoCubitCubit, TodoCubitState>(
+                      builder: (context, state) {
+                        final todoController = TodoCubitCubit.get(context);
+                        return ButtonItem(
+                          head: "Create a task",
+                          onPress: () {
+                            if (controller.formKey.currentState!.validate()) {
+                              int minutes = ControlTime(
+                                      startDay: DateTime(
+                                              DateTime.now().year,
+                                              DateTime.now().month,
+                                              DateTime.now().day)
+                                          .day,
+                                      deadLineDay: controller.deadLine.day,
+                                      startTime: controller.startTime,
+                                      endTime: controller.endTime)
+                                  .calTime();
+                              todoController.insertTask(
+                                  task: controller.taskController.text,
+                                  endTime: controller.endTime.format(context),
+                                  startTime:
+                                      controller.startTime.format(context),
+                                  deadLine: controller.deadLine
+                                      .toLocal()
+                                      .toString()
+                                      .substring(0, 10),
+                                  repeat: controller.repeatValue,
+                                  reminder: controller.reminderValue,
+                                  value: 0,
+                                  bgColor: controller.pickerBGColor
+                                      .toString()
+                                      .substring(6, 16),
+                                  textColor: controller.pickerTextColor
+                                      .toString()
+                                      .substring(6, 16),
+                                  favorite: 0,
+                                  isRepeat: controller.repeatValue==AddTaskData.repeat[0]?1:0,
+                                  addedAt:
+                                  
+                                      DateFormat.yMd().format(DateTime.now()),
+                                  lanType: controller.titleLan,
+                                  durationTimeForNotification: minutes);
+                             
+                              Navigator.pop(context);
+                            }
+                          },
+                          size: size,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

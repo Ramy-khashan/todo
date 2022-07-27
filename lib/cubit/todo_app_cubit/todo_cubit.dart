@@ -29,7 +29,7 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
     await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE todo (id INTEGER PRIMARY KEY, task TEXT, value INTEGER,reminder TEXT,repeat TEXT,deadLine TEXT,startTime TEXT,endTime TEXT,bgColor TEXT,textColor TEXT, favorite INTEGER,addedAt TEXT,lanType TEXT)');
+          'CREATE TABLE todo (id INTEGER PRIMARY KEY, task TEXT, value INTEGER,reminder TEXT,repeat TEXT,deadLine TEXT,startTime TEXT,endTime TEXT,bgColor TEXT,textColor TEXT, favorite INTEGER,addedAt TEXT,lanType TEXT, isRepeat INTEGER)');
       emit(CreateDatabaseState());
     }, onOpen: (Database db) {
       database = db;
@@ -51,10 +51,11 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
       favorite,
       addedAt,
       lanType,
+      isRepeat,
       durationTimeForNotification}) async {
     await database.transaction((txn) async {
       txn.rawInsert(
-          'INSERT INTO todo (task, value, reminder, repeat,deadLine,startTime,endTime,bgColor,textColor,favorite,addedAt,lanType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT INTO todo (task, value, reminder, repeat,deadLine,startTime,endTime,bgColor,textColor,favorite,addedAt,lanType,isRepeat) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             task,
             value,
@@ -67,7 +68,8 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
             textColor,
             favorite,
             addedAt,
-            lanType
+            lanType,
+            isRepeat
           ]).then((value) {
         log(durationTimeForNotification.toString());
         NotificationService().showNotification(
@@ -97,7 +99,7 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
 
   updateTask({required TaskModel task, value, favorite, isFavorite}) async {
     await database.rawUpdate(
-        'UPDATE todo SET task = ?, value = ?, reminder= ?, repeat= ?, deadLine=? , startTime=?, endTime=?, bgColor=?, textColor=?,favorite=?,addedAt=?,lanType = ? WHERE id = ${task.taskId}',
+        'UPDATE todo SET task = ?, value = ?, reminder= ?, repeat= ?, deadLine=? , startTime=?, endTime=?, bgColor=?, textColor=?,favorite=?,addedAt=?,lanType = ?,isRepeat = ? WHERE id = ${task.taskId}',
         [
           task.task,
           isFavorite ? task.value : value,
@@ -110,7 +112,8 @@ class TodoCubitCubit extends Cubit<TodoCubitState> {
           task.textColor,
           isFavorite ? favorite : task.favorite,
           task.addedAt,
-          task.lanType
+          task.lanType,
+          task.isRepeat
         ]).then((_) {
       if (!isFavorite) {
         Fluttertoast.showToast(msg: value == 1 ? "Completed" : "Uncompleted");

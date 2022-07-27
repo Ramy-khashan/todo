@@ -1,12 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:todo/models/db_model.dart';
 
 class TaskShapeScheduleItem extends StatelessWidget {
   final Size size;
   final TaskModel task;
-  const TaskShapeScheduleItem(
-      {Key? key, required this.task, required this.size})
-      : super(key: key);
+  final int currentDay;
+  final int choosenDay;
+
+  const TaskShapeScheduleItem({
+    Key? key,
+    required this.task,
+    required this.size,
+    required this.choosenDay,
+    required this.currentDay,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,9 @@ class TaskShapeScheduleItem extends StatelessWidget {
             ),
             child: Icon(Icons.done,
                 color: task.value == 1
-                    ? Color(int.parse(task.textColor))
+                    ? task.isRepeat == 1 && currentDay < choosenDay
+                        ? Color(int.parse(task.bgColor))
+                        : Color(int.parse(task.textColor))
                     : Color(int.parse(task.bgColor)))),
       ),
     );
